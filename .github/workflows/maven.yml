@@ -5,7 +5,7 @@ on:
     branches: [ dev ]
   push:
     branches: [ dev, main ]
-  workflow_dispatch: # Allows manual triggering of the deployment
+  workflow_dispatch:
 
 jobs:
   build:
@@ -50,17 +50,17 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' # Only run this job on manual trigger
+    if: github.event_name == 'workflow_dispatch'
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Build static site
-        run: mvn package # or any command that generates your static site
+        run: mvn package
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target/site # directory to deploy
+          publish_dir: ./target/site
